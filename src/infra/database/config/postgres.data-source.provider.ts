@@ -1,18 +1,11 @@
-import { DataSource } from 'typeorm';
-import configs from 'src/infra/configs/configs.config';
+import { configs } from '../../configs/configs.config';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
-const postgresDataSource = new DataSource({
+const postgresConfig = {
   ...configs.database,
   synchronize: true,
-  entities: ['dist/**/*.entity{.ts,.js}'],
-  migrations: ['dist/src/infra/database/migrations/*{.ts,.js}'],
-});
+  entities: ['dist/domain/entities/*.entity{.ts,.js}'],
+  migrations: ['dist/infra/database/migrations/*{.ts,.js}'],
+} as DataSourceOptions;
 
-export const databaseProviders = [
-  {
-    provide: 'DATA_SOURCE',
-    useFactory: async () => {
-      return postgresDataSource.initialize();
-    },
-  },
-];
+export const postgresDataSource = new DataSource(postgresConfig);

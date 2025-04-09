@@ -4,7 +4,7 @@ dotenv.config();
 
 export interface ConfigsInterface {
   database: {
-    type: 'postgres';
+    type: string;
     host: string;
     port: number;
     username: string;
@@ -13,7 +13,7 @@ export interface ConfigsInterface {
   };
 }
 
-const configs: ConfigsInterface = {
+export const configs: ConfigsInterface = {
   database: {
     type: (process.env.DATABASE_TYPE as 'postgres') ?? 'postgres',
     host: process.env.DATABASE_HOST ?? 'localhost',
@@ -23,5 +23,3 @@ const configs: ConfigsInterface = {
     database: process.env.DATABASE_NAME ?? 'tododb',
   },
 };
-
-export default configs;
