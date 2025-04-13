@@ -43,7 +43,10 @@ export class TaskRepositoryImpl implements TaskRepository {
   }
 
   async delete(id: string): Promise<void> {
-    const result = await this.repository.delete(id);
+    const result = await this.repository.update(id, {
+      deletedAt: new Date().toISOString(),
+      status: TaskStatusEnum.DELETED,
+    });
     if (result.affected === 0) {
       throw new Error('Task not found or could not be deleted');
     }
