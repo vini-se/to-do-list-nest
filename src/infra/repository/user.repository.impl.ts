@@ -1,4 +1,8 @@
-import { UserEntity, ViewUser } from '@/domain/entities/user.entity';
+import {
+  FilterUser,
+  UserEntity,
+  ViewUser,
+} from '@/domain/entities/user.entity';
 import { UserRepository } from '@/domain/repositories/user.repository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,6 +14,14 @@ export class UserRepositoryImpl implements UserRepository {
     @InjectRepository(UserEntity)
     private readonly repository: Repository<UserEntity>,
   ) {}
+
+  async findByFilter(data: FilterUser): Promise<ViewUser[]> {
+    const users = await this.repository.find({
+      where: data,
+      order: { createdAt: 'DESC' },
+    });
+    return users;
+  }
 
   async findByUsername(username: string): Promise<ViewUser> {
     const user = await this.repository.findOne({ where: { username } });
