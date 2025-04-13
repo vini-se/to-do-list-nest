@@ -14,19 +14,19 @@ export abstract class DefaultEntity {
     type: 'timestamp without time zone',
     default: () => 'NOW()',
   })
-  createdAt: string;
+  createdAt?: string;
 
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp without time zone',
     default: () => 'NOW()',
   })
-  updatedAt: string;
+  updatedAt?: string;
 
   @DeleteDateColumn({
     name: 'deleted_at',
     type: 'timestamp without time zone',
     nullable: true,
   })
-  deletedAt: string;
+  deletedAt?: string;
 }
