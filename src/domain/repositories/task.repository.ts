@@ -5,7 +5,7 @@ import {
   ViewTask,
 } from '../entities/task.entity';
 
-export abstract class TasksRepository {
+export abstract class TaskRepository {
   abstract create(data: CreateTask): Promise<ViewTask>;
   abstract listByFilter(data: FilterTask): Promise<ViewTask[]>;
   abstract listById(id: string): Promise<ViewTask | null>;

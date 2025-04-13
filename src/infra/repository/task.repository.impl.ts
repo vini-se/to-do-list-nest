@@ -1,3 +1,4 @@
+import { TaskStatusEnum } from '@/commons/enum/task-status.enum';
 import {
   CreateTask,
   FilterTask,
@@ -5,13 +6,13 @@ import {
   UpdateTask,
   ViewTask,
 } from '@/domain/entities/task.entity';
-import { TasksRepository } from '@/domain/repositories/task.repository';
+import { TaskRepository } from '@/domain/repositories/task.repository';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class TasksRepositoryImpl implements TasksRepository {
+export class TaskRepositoryImpl implements TaskRepository {
   constructor(
     @InjectRepository(TaskEntity)
     private readonly repository: Repository<TaskEntity>,
