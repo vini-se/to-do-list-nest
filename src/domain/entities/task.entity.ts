@@ -1,6 +1,6 @@
+import { TaskStatusEnum } from 'src/commons/enum/task-status.enum';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { DefaultEntity } from './default.entity';
-import { TaskStatusEnum } from 'src/commons/enum/task-status.enum';
 import { UserEntity } from './user.entity';
 
 @Entity({ name: 'tasks' })
@@ -16,7 +16,7 @@ export class TaskEntity extends DefaultEntity {
     enum: TaskStatusEnum,
     default: TaskStatusEnum.BACK_LOG,
   })
-  status: TaskStatusEnum;
+  status?: TaskStatusEnum;
 
   @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
@@ -25,3 +25,11 @@ export class TaskEntity extends DefaultEntity {
   @Column({ type: 'uuid', name: 'user_id' })
   userId: string;
 }
+
+export type ViewTask = TaskEntity;
+export type CreateTask = Omit<
+  TaskEntity,
+  'id' | 'createdAt' | 'updatedAt' | 'user' | 'deletedAt'
+>;
+export type FilterTask = Partial<ViewTask>;
+export type UpdateTask = Partial<CreateTask>;
