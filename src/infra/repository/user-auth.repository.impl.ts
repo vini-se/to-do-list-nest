@@ -37,6 +37,7 @@ export class UserAuthRepositoryImpl implements UserAuthRepository {
   }
 
   async recoverPassword({
+    challengeAnswer,
     password,
     ...userData
   }: UserRecoverPassword): Promise<void> {
@@ -46,6 +47,16 @@ export class UserAuthRepositoryImpl implements UserAuthRepository {
     if (!user) {
       throw new Error('User not found');
     }
+
+    const isChallengeAnswerValid = await this.comparePassword(
+      challengeAnswer,
+      user.challengeAnswer,
+    );
+
+    if (!isChallengeAnswerValid) {
+      throw new Error('Invalid challenge answer');
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     user.password = hashedPassword;
     await this.repository.save(user);
@@ -56,6 +67,24 @@ export class UserAuthRepositoryImpl implements UserAuthRepository {
     if (!user) {
       throw new Error('User not found');
     }
-    return await bcrypt.compare(password, user.password);
+    return await this.comparePassword(password, user.password);
+  }
+
+  async validateChallengeAnswer(
+    id: string,
+    password: string,
+  ): Promise<boolean> {
+    const user = await this.repository.findOne({ where: { id } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return await this.comparePassword(password, user.challengeAnswer);
+  }
+
+  private async comparePassword(
+    password: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
+    return await bcrypt.compare(password, hashedPassword);
   }
 }
