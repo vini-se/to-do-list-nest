@@ -1,6 +1,6 @@
+import { UserRoleEnum } from 'src/commons/enum/user-role.enum';
 import { Column, Entity } from 'typeorm';
 import { DefaultEntity } from './default.entity';
-import { UserRoleEnum } from 'src/commons/enum/user-role.enum';
 
 @Entity({ name: 'users' })
 export class UserEntity extends DefaultEntity {
@@ -37,6 +37,8 @@ export type CreateUser = Omit<
   UserEntity,
   'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'role' | 'isActive'
 >;
+
+export type FilterUser = Partial<UserEntity>;
 
 export type ViewUser = UserEntity;
 
