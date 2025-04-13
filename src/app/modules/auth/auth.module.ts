@@ -2,6 +2,7 @@ import { JwtUtils } from '@/commons/utils/jwt.utils';
 import { UserEntity } from '@/domain/entities/user.entity';
 import { UserAuthRepository } from '@/domain/repositories/user-auth.repository';
 import { UserRepository } from '@/domain/repositories/user.repository';
+import { ForgotPasswordUseCase } from '@/domain/use-cases/auth/forgot-password.auth.use-case';
 import { RegisterAuthUseCase } from '@/domain/use-cases/auth/register.auth.use-case';
 import { SignInAuthUseCase } from '@/domain/use-cases/auth/sign-in.auth.use-case';
 import { UserAuthRepositoryImpl } from '@/infra/repository/user-auth.repository.impl';
@@ -9,6 +10,7 @@ import { UserRepositoryImpl } from '@/infra/repository/user.repository.impl';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './api/controllers/auth.controller';
+import { ForgotPasswordUseCaseImpl } from './use-cases/forgot-password.auth.use-case';
 import { RegisterAuthUseCaseImpl } from './use-cases/register.auth.use-case';
 import { SignInAuthUseCaseImpl } from './use-cases/sign-in.auth.use-case';
 
@@ -35,6 +37,11 @@ import { SignInAuthUseCaseImpl } from './use-cases/sign-in.auth.use-case';
     {
       provide: UserRepository,
       useExisting: UserRepositoryImpl,
+    },
+    ForgotPasswordUseCaseImpl,
+    {
+      provide: ForgotPasswordUseCase,
+      useExisting: ForgotPasswordUseCaseImpl,
     },
   ],
   controllers: [AuthController],
