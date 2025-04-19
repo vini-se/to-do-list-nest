@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { jwtConstants } from '@/commons/const/jwt.const';
+import { ISignedUser } from '@/commons/utils/jwt.utils';
 import {
   CanActivate,
   ExecutionContext,
@@ -9,6 +10,10 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+
+export interface IJwtRequest extends Request {
+  user: ISignedUser;
+}
 
 @Injectable()
 export class AuthGuard implements CanActivate {
