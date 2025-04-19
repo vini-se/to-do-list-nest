@@ -3,7 +3,7 @@ import { CreateTask } from '@/domain/entities/task.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class CreateTaskDto implements CreateTask {
+export class CreateTaskDto implements Omit<CreateTask, 'userId'> {
   @ApiProperty({
     description: 'Task description',
     example: 'This is a task description',
@@ -23,16 +23,6 @@ export class CreateTaskDto implements CreateTask {
   @IsString()
   @IsNotEmpty()
   name: string;
-
-  @ApiProperty({
-    description: 'User id',
-    example: '123e4567-e89b-12d3-a456-426614174000',
-    required: true,
-    type: String,
-  })
-  @IsString()
-  @IsNotEmpty()
-  userId: string;
 
   @ApiProperty({
     description: 'Task status',
