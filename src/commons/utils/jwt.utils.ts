@@ -1,7 +1,7 @@
 import { ViewUser } from '@/domain/entities/user.entity';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
+import { UserRoleEnum } from '../enum/user-role.enum';
 
 export interface IHashTokenResponse {
   accessToken: string;
@@ -10,11 +10,7 @@ export interface IHashTokenResponse {
 export interface ISignedUser {
   sub: string;
   username: string;
-  role: string;
-}
-
-export interface IJwtRequest extends Request {
-  user: ISignedUser;
+  role: UserRoleEnum;
 }
 
 @Injectable()
