@@ -1,7 +1,7 @@
 import { UpdateComment } from '@/domain/entities/comments.entity';
 import { CommentRepository } from '@/domain/repositories/comment.repository';
 import { UpdateCommentUseCase } from '@/domain/use-cases/comment/update.comment.use-case';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class UpdateCommentUseCaseImpl implements UpdateCommentUseCase {
@@ -18,7 +18,7 @@ export class UpdateCommentUseCaseImpl implements UpdateCommentUseCase {
     });
 
     if (!comment) {
-      throw new Error('Comment not found');
+      throw new NotFoundException();
     }
 
     await this.commentRepository.update(id, data);

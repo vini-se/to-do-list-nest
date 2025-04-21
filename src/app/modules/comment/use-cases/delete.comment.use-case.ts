@@ -1,6 +1,6 @@
 import { CommentRepository } from '@/domain/repositories/comment.repository';
 import { DeleteCommentUseCase } from '@/domain/use-cases/comment/delete.comment.use-case';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class DeleteCommentUseCaseImpl implements DeleteCommentUseCase {
@@ -13,7 +13,7 @@ export class DeleteCommentUseCaseImpl implements DeleteCommentUseCase {
     });
 
     if (!comment) {
-      throw new Error('Comment not found');
+      throw new NotFoundException();
     }
 
     await this.commentRepository.delete(id);
