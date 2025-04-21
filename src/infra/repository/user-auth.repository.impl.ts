@@ -5,7 +5,7 @@ import {
   ViewUser,
 } from '@/domain/entities/user.entity';
 import { UserAuthRepository } from '@/domain/repositories/user-auth.repository';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
@@ -45,7 +45,7 @@ export class UserAuthRepositoryImpl implements UserAuthRepository {
       where: userData,
     });
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException();
     }
 
     const isChallengeAnswerValid = await this.comparePassword(
@@ -54,7 +54,7 @@ export class UserAuthRepositoryImpl implements UserAuthRepository {
     );
 
     if (!isChallengeAnswerValid) {
-      throw new Error('Invalid challenge answer');
+      throw new NotFoundException();
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -65,7 +65,7 @@ export class UserAuthRepositoryImpl implements UserAuthRepository {
   async validatePassword(id: string, password: string): Promise<boolean> {
     const user = await this.repository.findOne({ where: { id } });
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException();
     }
     return await this.comparePassword(password, user.password);
   }
@@ -76,7 +76,7 @@ export class UserAuthRepositoryImpl implements UserAuthRepository {
   ): Promise<boolean> {
     const user = await this.repository.findOne({ where: { id } });
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException();
     }
     return await this.comparePassword(password, user.challengeAnswer);
   }

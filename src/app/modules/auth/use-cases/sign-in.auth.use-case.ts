@@ -6,7 +6,7 @@ import {
   ISignInAuthResponse,
   SignInAuthUseCase,
 } from '@/domain/use-cases/auth/sign-in.auth.use-case';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class SignInAuthUseCaseImpl implements SignInAuthUseCase {
@@ -22,7 +22,7 @@ export class SignInAuthUseCaseImpl implements SignInAuthUseCase {
   }: ISignInAuthData): Promise<ISignInAuthResponse> {
     const user = await this.userRepository.findByUsername(username);
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException();
     }
 
     const isPasswordValid = await this.userAuthRepository.validatePassword(
@@ -31,7 +31,7 @@ export class SignInAuthUseCaseImpl implements SignInAuthUseCase {
     );
 
     if (!isPasswordValid) {
-      throw new Error('Invalid password');
+      throw new NotFoundException();
     }
 
     const { accessToken } = await this.jwtUtils.hashToken(user);

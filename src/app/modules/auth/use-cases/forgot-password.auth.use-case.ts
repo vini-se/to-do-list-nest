@@ -6,7 +6,7 @@ import {
   ISignInAuthResponse,
   SignInAuthUseCase,
 } from '@/domain/use-cases/auth/sign-in.auth.use-case';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class ForgotPasswordUseCaseImpl implements ForgotPasswordUseCase {
@@ -23,7 +23,7 @@ export class ForgotPasswordUseCaseImpl implements ForgotPasswordUseCase {
     });
 
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException();
     }
 
     await this.userAuthRepository.recoverPassword(data);

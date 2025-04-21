@@ -7,7 +7,7 @@ import {
   ViewTask,
 } from '@/domain/entities/task.entity';
 import { TaskRepository } from '@/domain/repositories/task.repository';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -38,7 +38,7 @@ export class TaskRepositoryImpl implements TaskRepository {
   async update(id: string, data: UpdateTask): Promise<void> {
     const result = await this.repository.update(id, data);
     if (result.affected === 0) {
-      throw new Error('Task not found or could not be updated');
+      throw new NotFoundException();
     }
   }
 
@@ -48,7 +48,7 @@ export class TaskRepositoryImpl implements TaskRepository {
       status: TaskStatusEnum.DELETED,
     });
     if (result.affected === 0) {
-      throw new Error('Task not found or could not be deleted');
+      throw new NotFoundException();
     }
   }
 }

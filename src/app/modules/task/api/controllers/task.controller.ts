@@ -11,6 +11,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Query,
@@ -35,7 +36,7 @@ export class TaskController {
   ) {}
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.listOneTaskUseCase.execute(id);
   }
 
@@ -50,7 +51,7 @@ export class TaskController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id', ParseUUIDPipe) id: string) {
     return this.deleteTaskUseCase.execute(id);
   }
 
@@ -66,7 +67,7 @@ export class TaskController {
 
   @Patch(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() data: UpdateTaskDto,
     @Req() req: IJwtRequest,
   ) {
