@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { DefaultEntity } from './default.entity';
-import { UserEntity } from './user.entity';
 import { TaskEntity } from './task.entity';
+import { UserEntity } from './user.entity';
 
 @Entity({ name: 'comments' })
 export class CommentEntity extends DefaultEntity {
@@ -22,3 +22,11 @@ export class CommentEntity extends DefaultEntity {
   @Column({ type: 'uuid', name: 'task_id' })
   taskId: string;
 }
+
+export type ViewComment = CommentEntity;
+export type CreateComment = Pick<
+  CommentEntity,
+  'comment' | 'taskId' | 'userId'
+>;
+export type FilterComment = Partial<ViewComment>;
+export type UpdateComment = Pick<CommentEntity, 'comment'>;
