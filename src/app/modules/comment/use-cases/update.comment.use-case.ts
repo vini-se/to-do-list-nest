@@ -12,10 +12,6 @@ export class UpdateCommentUseCaseImpl implements UpdateCommentUseCase {
     userId: string,
     data: UpdateComment,
   ): Promise<void> {
-    console.log('UpdateCommentUseCaseImpl');
-    console.log('id: ', id);
-    console.log('userId: ', userId);
-    console.log('data: ', data);
     const [comment] = await this.commentRepository.listByFilter({
       id,
       userId,
