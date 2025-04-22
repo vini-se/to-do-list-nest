@@ -3,6 +3,7 @@ import { UserRoleEnum } from '@/commons/enum/user-role.enum';
 import { CreateTaskUseCase } from '@/domain/use-cases/task/create.task.use-case';
 import { DeleteTaskUseCase } from '@/domain/use-cases/task/delete.task.use-case';
 import { ListByFilterTaskUseCase } from '@/domain/use-cases/task/list-by-filter.task.use-case';
+import { ListHistoryTaskUseCase } from '@/domain/use-cases/task/list-history.task.use-case';
 import { ListOneTaskUseCase } from '@/domain/use-cases/task/list-one.task.use-case';
 import { UpdateTaskUseCase } from '@/domain/use-cases/task/update.task.use-case';
 import {
@@ -33,7 +34,13 @@ export class TaskController {
     private readonly updateTaskUseCase: UpdateTaskUseCase,
     private readonly deleteTaskUseCase: DeleteTaskUseCase,
     private readonly listByFilterUseCase: ListByFilterTaskUseCase,
+    private readonly listHistoryTaskUseCase: ListHistoryTaskUseCase,
   ) {}
+
+  @Get('history/:id')
+  async findHistory(@Param('id', ParseUUIDPipe) id: string) {
+    return this.listHistoryTaskUseCase.execute(id);
+  }
 
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
