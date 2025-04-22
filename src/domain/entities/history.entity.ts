@@ -30,3 +30,6 @@ export class HistoryEntity {
   })
   createdAt: string;
 }
+
+export type CreateHistory = Pick<HistoryEntity, 'event' | 'taskId'>;
+export type ViewHistory = HistoryEntity;
