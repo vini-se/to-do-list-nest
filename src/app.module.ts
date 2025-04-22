@@ -17,6 +17,7 @@ import { PostgresDataSourceModule } from './infra/database/config/postgres.data-
     AuthModule,
     CommentModule,
     TaskModule,
+    UserModule,
   ],
 })
 export class AppModule {}
